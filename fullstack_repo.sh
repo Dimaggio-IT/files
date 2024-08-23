@@ -17,16 +17,19 @@ if [ "$choice" == "y" ]; then
     cd project
 
     # либы для backend
-
+    nx add @nx/nest
+    nx g @nx/nest:lib common --directory=libs/common
+    nx g @nx/nest:lib authentication --directory=libs/backend/authentication
+    nx g @nx/nest:lib configuration --directory=libs/backend/configuration
+    nx g @nx/nest:lib product --directory=libs/backend/product
+    nx g @nx/nest:lib user --directory=libs/backend/user
+    nx g @nx/nest:lib data-access --directory=libs/backend/data-access
 
     echo ""
     read -p ">>> Давайте добавим в моно-репозиторий (frontend) ? (y/n) " choice
     if [ "$choice" == "y" ]; then
         npx nx add @nx/react
         npx nx g @nx/react:app frontend --directory=apps/frontend
-
-        # добавить сюда тоже всякого
-
     fi
 fi
 

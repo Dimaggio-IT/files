@@ -9,7 +9,7 @@ echo "| Итак, приступимс:"
 
 # Создание apps (backend & frontend) при помощи npx:
 echo ""
-read -p ">>> Давайте созданим моно-репозиторий (backend) ? (y/n) " choice
+read -p ">>> Давайте созданим моно-репозиторий. Начнём с backend ? (y/n) " choice
 echo ""
 if [ "$choice" == "y" ]; then
     echo "будем исполнена команда >> npx create-nx-workspace project --preset=nest"
@@ -26,9 +26,10 @@ if [ "$choice" == "y" ]; then
     nx g @nx/nest:lib data-access --directory=libs/backend/data-access
 
     echo ""
-    read -p ">>> Давайте добавим в моно-репозиторий (frontend) ? (y/n) " choice
+    read -p ">>> Давайте добавим в моно-репозиторий frontend ? (y/n) " choice
     if [ "$choice" == "y" ]; then
         npx nx add @nx/react
+        npm i @reduxjs/toolkit@1.9.7 && npm i react-redux@8.1.3 && npm i -SE @types/react-redux@7.1.27
         npx nx g @nx/react:app frontend --directory=apps/frontend
     fi
 fi
@@ -71,30 +72,12 @@ if [ "$choice" == "y" ]; then
 fi
 
 echo ""
-read -p ">>> Поставить @nestjs/swagger ? (y/n) " choice
+read -p ">>> Поставим @nestjs библиотеки (swagger, jwt, config, passport) ? (y/n) " choice
 echo ""
 if [ "$choice" == "y" ]; then
     npm i @nestjs/swagger
-fi
-
-echo ""
-read -p ">>> Поставить @nestjs/jwt ? (y/n) " choice
-echo ""
-if [ "$choice" == "y" ]; then
     npm i @nestjs/jwt
-fi
-
-echo ""
-read -p ">>> Поставить @nestjs/config ? (y/n) " choice
-echo ""
-if [ "$choice" == "y" ]; then
     npm i @nestjs/config
-fi
-
-echo ""
-read -p ">>> Поставить @nestjs/passport ? (y/n) " choice
-echo ""
-if [ "$choice" == "y" ]; then
     npm i @nestjs/passport
 fi
 
@@ -103,6 +86,13 @@ read -p ">>> Поставить class-transformer ? (y/n) " choice
 echo ""
 if [ "$choice" == "y" ]; then
     npm i class-transformer
+fi
+
+echo ""
+read -p ">>> Поставить passport@0.7.0 ? (y/n) " choice
+echo ""
+if [ "$choice" == "y" ]; then
+    npm i -ED passport@0.7.0
 fi
 
 echo ""
@@ -147,20 +137,6 @@ echo ""
 if [ "$choice" == "y" ]; then
     npm i bcrypt
     npm i --save-dev @types/bcrypt
-fi
-
-echo ""
-read -p ">>> Поставить passport@0.7.0 ? (y/n) " choice
-echo ""
-if [ "$choice" == "y" ]; then
-    npm i -ED passport@0.7.0
-fi
-
-echo ""
-read -p ">>> Поставить Redux Toolkit (RTK) v1.9.7 ? (y/n) " choice
-echo ""
-if [ "$choice" == "y" ]; then
-    npm i @reduxjs/toolkit@1.9.7 && npm i react-redux@8.1.3 && npm i -SE @types/react-redux@7.1.27
 fi
 
 echo ""

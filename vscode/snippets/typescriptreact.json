@@ -1,0 +1,373 @@
+  //* Console log snippet
+	"Console Log": {
+    "prefix": "cl",
+    "body": [
+      "console.log($1);"
+    ]
+  },
+
+  //* Most common react Hooks snippets
+  "React useState": {
+    "prefix": "us",
+    "body": [
+      "const [$1, set$2] = useState($3);"
+    ]
+  },
+  "React useEffect": {
+    "prefix": "ue",
+    "body": [
+      "useEffect(() => {",
+      "  $1",
+      "}, [$2]);"
+    ]
+  },
+  "React useCallback": {
+    "prefix": "ucb",
+    "body": [
+      "useCallback(() => {",
+      "  $1",
+      "}, [$2]);"
+    ]
+  },
+  "React useMemo": {
+    "prefix": "umm",
+    "body": [
+      "useMemo(() => {",
+      "  $1",
+      "}, [$2]);"
+    ]
+  },
+
+  //* React Functional component
+  "React Function Component": {
+    "key": "reactArrowFunctionExportComponent",
+    "prefix": "rafce",
+    "body": [
+      "const ${1:${TM_FILENAME_BASE}} = () => {",
+      "  return (",
+      "    <div>",
+      "      <h1>${1:first}</h1>",
+      "    </div>",
+      "  )",
+      "}",
+      "",
+      "export default ${1:${TM_FILENAME_BASE}}"
+    ],
+    "description": "Creates a React Arrow Function Component with ES7 module system",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "React Function Component with Props": {
+    "key": "reactArrowFunctionExportComponent",
+    "prefix": "rafcep",
+    "body": [
+      "interface $1Props {}",
+      "",
+      "const ${1:${TM_FILENAME_BASE}} = ({}: $1Props) => {",
+      "  return (",
+      "    <div>",
+      "      <h1>${1:first}</h1>",
+      "    </div>",
+      "  )",
+      "}",
+      "",
+      "export default ${1:${TM_FILENAME_BASE}}"
+    ],
+    "description": "Creates a React Arrow Function Component with ES7 module system",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "React Declaration Function Component": {
+    "key": "reactDeclarationFunctionExportComponent",
+    "prefix": "rdfec",
+    "body": [
+      "function ${1:${TM_FILENAME_BASE}}(): JSX.Element {",
+      "  return (",
+      "    <div>",
+      "      <h1>${1:first}</h1>",
+      "    </div>",
+      "  )",
+      "}",
+      "",
+      "export { ${1:${TM_FILENAME_BASE}} }"
+    ],
+    "description": "Creates a React Declaration Function Component with ES7 module system",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  "React Declaration Function Component with Props": {
+    "key": "reactDeclarationFunctionExportComponent",
+    "prefix": "rdfecp",
+    "body": [
+      "type T${1:${TM_FILENAME_BASE}}Props = {}",
+      "",
+      "function ${1:${TM_FILENAME_BASE}}({}: T${1:${TM_FILENAME_BASE}}Props): JSX.Element {",
+      "  return (",
+      "    <div>",
+      "      <h1>${1:first}</h1>",
+      "    </div>",
+      "  )",
+      "}",
+      "",
+      "export { ${1:${TM_FILENAME_BASE}} }"
+    ],
+    "description": "Creates a React Declaration Function Component with ES7 module system",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* React Declaration HOF-Function with Props
+  //  Description: React Declaration HOF-Function with Props
+  //  Use case: Creating a HOF Function
+  "React Declaration HOF-Function with Props": {
+    "key": "reactDeclarationHofFunctionWithProps",
+    "prefix": "rdhfp",
+    "body": [
+      "import React, { ComponentType, FC } from 'react';",
+      "",
+      "//? это пропсы которые прийдут",
+      "//? в обёртку и будут использованы только ей(обёрткой)",
+      "//? они НЕ направятся в обёртываемы(целевой) компонент",
+      "interface WrapperProps {",
+      "  a: number;",
+      "  b: string;",
+      "}",
+      "",
+      "//? это пропсы (рождаются) в обертке",
+      "//? и направляются в обёртываемы(целевой) компонент",
+      "interface WrapperForWrappedProps {",
+      "  c: boolean;",
+      "}",
+      "",
+      "//? эти пропсы вначале передаются в обёртку а из неё уже",
+      "//? поступают и в обёртываемый компонент",
+      "interface CustomComponentProps {",
+      "  d: number;",
+      "  e: string;",
+      "}",
+      "",
+      "function withHoc<WrappedProps>(",
+      "  WrappedComponent: ComponentType<WrappedProps & WrapperForWrappedProps>",
+      "): FC<WrappedProps & WrapperProps> {",
+      "  const WrapperComponent: FC<WrappedProps & WrapperProps> = (props) => {",
+      "    const { a, b, ...wrappedOnlyProps } = props;",
+      "    const wrapperToWrappedProps = {",
+      "      c: true,",
+      "    };",
+      "    const wrappedFullProps = {",
+      "      ...wrapperToWrappedProps,",
+      "      ...(wrappedOnlyProps as unknown as WrappedProps),",
+      "    };",
+      "",
+      "    return <WrappedComponent {...wrappedFullProps} />;",
+      "  };",
+      "",
+      "  return WrapperComponent;",
+      "}",
+      "",
+      "//? вместо CustomComponent нужно импортировать нужный компонент",
+      "//? то есть это обёртываемый компонент",
+      "const CustomComponent: FC<",
+      "  CustomComponentProps & WrapperForWrappedProps",
+      "> = ({ c, d, e }) => {",
+      "  return null;",
+      "};",
+      "",
+      "const Wrapped${1:${TM_FILENAME_BASE}} = withHoc(CustomComponent);",
+      "",
+      "export {",
+      "  CustomComponent,",
+      "  Wrapped${1:${TM_FILENAME_BASE}},",
+      "  WrapperProps,",
+      "  WrapperForWrappedProps,",
+      "  CustomComponentProps,",
+      "};",
+      "",
+      "//? ниже пример использования",
+      "// так написано, просто чтоб не высвечивало ошибку, имею ввиду <>...</>",
+      "//<>",
+      "//  <CustomComponent c={true} d={5} e={``} />",
+      "//  <Wrapped${1:${TM_FILENAME_BASE}} a={0} b={``} d={1} e={``} />;",
+      "//  <Wrapped${1:${TM_FILENAME_BASE}} a={0} b={``} c={true} d={1} e={``} g={false} u={``}/>",
+      "//</>;",
+    ],
+    "description": "Creates a React Declaration HOF-Function with ES7 module system",
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* Asynchronous react functional component - useful for creating nextjs server components
+  "Async React Function Component": {
+    "prefix": "arafce",
+    "body": [
+      "const ${1:${TM_FILENAME_BASE}} = async () => {",
+      "  return (",
+      "    <div>",
+      "      <h1>${1:first}</h1>",
+      "    </div>",
+      "  )",
+      "}",
+      "",
+      "export default ${1:${TM_FILENAME_BASE}}"
+    ]
+  },
+
+  "Async React Function Component with Props": {
+    "prefix": "arafcep",
+    "body": [
+      "interface $1Props {}",
+      "",
+      "const ${1:${TM_FILENAME_BASE}} = async ({}: $1Props) => {",
+      "  return (",
+      "    <div>",
+      "      <h1>${1:first}</h1>",
+      "    </div>",
+      "  )",
+      "}",
+      "",
+      "export default ${1:${TM_FILENAME_BASE}}"
+    ]
+  },
+
+  //* Imports alias
+  "import": {
+    "key": "import",
+    "prefix": "imp",
+    "body": ["import ${2:second} from '${1:first}'"],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+  "importDestructing": {
+    "key": "importDestructing",
+    "prefix": "imd",
+    "body": ["import { ${2:second} } from '${1:first}'"],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* React array of components using Array.from
+  "React array of components using Array.from": {
+    "key": "reactArrayComponentsUsingArrayFrom",
+    "prefix": "racuaf",
+    "body": [
+      "{Array.from({ length: ${1:number} }).map(",
+      "  (_, index) =>",
+      "    data[index] && (",
+      "      <li",
+      "        className={${2:cn}}",
+      "      >",
+      "        <${3:Component} />",
+      "      </li>",
+      "    )",
+      ")}",
+    ],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* Arrow List Rendering
+  //  Description: Renders items in a list, mostly from an API or database, to be displayed on the user interface.
+  //  Use case: Displaying a list of items.
+  "React Arrow List Rendering": {
+    "key": "reactArrowListRendering",
+    "prefix": "ralrend",
+    "body": [
+      "type T${1:${TM_FILENAME_BASE}}Props = { items: [] }",
+      "",
+      "const ${1:${TM_FILENAME_BASE}} = ({ items }: T${1:${TM_FILENAME_BASE}}Props): JSX.Element => {",
+      "  return (",
+      "    <ul>",
+      "      {items.map(item => (",
+      "        <li key={item.${2:id}}>{item.${3:name}}</li>",
+      "      ))}",
+      "    </ul>",
+      "  );",
+      "};",
+      "",
+      "export { ${1:${TM_FILENAME_BASE}} }",
+    ],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* Arrow Form
+  //  Description: React code that handles forms and input submission.
+  //  Use case: Creating a form for user input.
+  "React Arrow Form": {
+    "key": "reactArrowForm",
+    "prefix": "raform",
+    "body": [
+      "import React, { useState } from 'react';",
+      "",
+      "const ${1:${TM_FILENAME_BASE}} = () => {",
+      "  const [value, setValue] = useState('');",
+      "",
+      "  const handleChange = (e) => setValue(e.target.value);",
+      "",
+      "  const handleSubmit = (e) => {",
+      "    e.preventDefault();",
+      "    // Handle form submission",
+      "  };",
+      "",
+      "  return (",
+      "    <form onSubmit={handleSubmit}>",
+      "      <input type='text' value={value} onChange={handleChange} />",
+      "      <button type='submit'>Submit</button>",
+      "    </form>",
+      "  );",
+      "};",
+      "",
+      "export { ${1:${TM_FILENAME_BASE}} }",
+    ],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* Arrow Fetch Hook
+  //  Description: Creates a hook for reusing stateful logic.
+  //  Use case: Fetching data from an API with reusable logic.
+  "React Arrow Fetch Hook": {
+    "key": "reactArrowFetchHook",
+    "prefix": "rafchhook",
+    "body": [
+      "import { useState, useEffect } from 'react';",
+      "",
+      "const useFetch = (url: string) => {",
+      "  const [data, setData] = useState(null);",
+      "  const [loading, setLoading] = useState(true);",
+      "",
+      "  useEffect(() => {",
+      "    const fetchData = async () => {",
+      "      const response = await fetch(url);",
+      "      const data = await response.json();",
+      "      setData(data);",
+      "      setLoading(false);",
+      "    };",
+      "    fetchData();",
+      "  }, [url]);",
+      "",
+      "  return { data, loading };",
+      "};",
+      "",
+      "export { useFetch };",
+    ],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+
+  //* Redux toolkit snippets
+  "reduxSlice": {
+    "key": "reduxSlice",
+    "prefix": "rxslice",
+    "body": [
+      "import { createSlice } from '@reduxjs/toolkit'",
+      "",
+      "const initialState = {",
+      "  ${3}",
+      "}",
+      "",
+      "const ${1:${TM_FILENAME_BASE}} = createSlice({",
+      "  name: '${2:second}',",
+      "  initialState,",
+      "  reducers: {}",
+      "});",
+      "",
+      "export const {} = ${1:${TM_FILENAME_BASE}}.actions",
+      "",
+      "export default ${1:${TM_FILENAME_BASE}}.reducer"
+    ],
+    "scope": "typescript,typescriptreact,javascript,javascriptreact"
+  },
+}
